@@ -27,11 +27,11 @@
       "taskSummary": "Successfully upgraded Java from version 17 to version 21 (LTS). Updated pom.xml with Java 21 configuration. Build passes successfully with all 7 source files compiled. All unit tests (1/1) pass. No code changes required - all dependencies are compatible with Java 21.",
       "successCriteriaStatus": {
         "passBuild": "true",
-        "generateNewUnitTests": "true",
-        "generateNewIntegrationTests": "true",
+        "generateNewUnitTests": "false",
+        "generateNewIntegrationTests": "false",
         "passUnitTests": "true",
-        "passIntegrationTests": "true",
-        "securityComplianceCheck": null
+        "passIntegrationTests": "false",
+        "securityComplianceCheck": "false"
       }
     },
     {
@@ -61,11 +61,11 @@
       "taskSummary": "Successfully verified Spring Boot 3.4.1 (LTS) with Spring Framework 6.x. Project already uses Jakarta EE 10 namespace. Updated deprecated @MockBean to @MockitoBean in VetResourceTest.java. Build passes successfully with all unit tests (1/1) passing. No deprecation warnings remain.",
       "successCriteriaStatus": {
         "passBuild": "true",
-        "generateNewUnitTests": "true",
-        "generateNewIntegrationTests": "true",
+        "generateNewUnitTests": "false",
+        "generateNewIntegrationTests": "false",
         "passUnitTests": "true",
-        "passIntegrationTests": "true",
-        "securityComplianceCheck": null
+        "passIntegrationTests": "false",
+        "securityComplianceCheck": "false"
       }
     },
     {
@@ -95,11 +95,11 @@
       "taskSummary": "Successfully upgraded all project dependencies to latest compatible versions: Chaos Monkey for Spring Boot (3.1.0 → 4.0.0), Jolokia Core (1.7.1 → 2.5.0), Azure Spring Cloud (5.20.1 → 7.0.0). Build passes successfully with all unit tests (1/1) passing. All dependencies compatible with Java 21 and Spring Boot 3.4.1.",
       "successCriteriaStatus": {
         "passBuild": "true",
-        "generateNewUnitTests": "true",
-        "generateNewIntegrationTests": "true",
+        "generateNewUnitTests": "false",
+        "generateNewIntegrationTests": "false",
         "passUnitTests": "true",
-        "passIntegrationTests": "true",
-        "securityComplianceCheck": true
+        "passIntegrationTests": "false",
+        "securityComplianceCheck": "true"
       }
     }
   ],
