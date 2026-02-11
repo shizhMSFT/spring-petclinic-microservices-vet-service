@@ -1,0 +1,250 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "timestamp": "2026-02-11T06:32:39.746Z",
+    "toolVersion": "AppCAT 0.4.0",
+    "targetIds": [
+      "azure-appservice",
+      "azure-aks",
+      "azure-container-apps"
+    ],
+    "targetDisplayNames": [
+      "Azure App Service",
+      "Azure Kubernetes Service",
+      "Azure Container Apps"
+    ]
+  },
+  "projects": [
+    {
+      "name": "vets-service",
+      "path": "/home/runner/work/spring-petclinic-microservices-vet-service/spring-petclinic-microservices-vet-service",
+      "properties": {
+        "appName": "Spring PetClinic Vets Service",
+        "jdkVersion": "17",
+        "frameworks": [
+          "Spring Boot 3.4.1",
+          "Spring Cloud 2024.0.0",
+          "Spring Data JPA",
+          "Spring Cloud Config",
+          "Spring Cloud Netflix Eureka"
+        ],
+        "languages": [
+          "Java"
+        ],
+        "tools": [
+          "Maven"
+        ]
+      },
+      "incidents": [
+        {
+          "ruleId": "AZURE-001",
+          "labels": ["type=violation"],
+          "targets": {
+            "azure-appservice": {
+              "severity": "mandatory",
+              "effort": 3
+            },
+            "azure-aks": {
+              "severity": "potential",
+              "effort": 3
+            },
+            "azure-container-apps": {
+              "severity": "potential",
+              "effort": 3
+            }
+          },
+          "uri": "file:///home/runner/work/spring-petclinic-microservices-vet-service/spring-petclinic-microservices-vet-service/pom.xml",
+          "lineNumber": 91,
+          "message": "Spring Cloud Config Server detected. Consider migrating to Azure App Configuration for centralized configuration management in Azure."
+        },
+        {
+          "ruleId": "AZURE-002",
+          "labels": ["type=violation"],
+          "targets": {
+            "azure-appservice": {
+              "severity": "mandatory",
+              "effort": 3
+            },
+            "azure-aks": {
+              "severity": "optional",
+              "effort": 2
+            },
+            "azure-container-apps": {
+              "severity": "optional",
+              "effort": 2
+            }
+          },
+          "uri": "file:///home/runner/work/spring-petclinic-microservices-vet-service/spring-petclinic-microservices-vet-service/pom.xml",
+          "lineNumber": 95,
+          "message": "Netflix Eureka service discovery detected. Consider migrating to Azure Spring Apps service registry or Azure API Management for service discovery in Azure."
+        },
+        {
+          "ruleId": "AZURE-002",
+          "labels": ["type=violation"],
+          "targets": {
+            "azure-appservice": {
+              "severity": "mandatory",
+              "effort": 3
+            },
+            "azure-aks": {
+              "severity": "optional",
+              "effort": 2
+            },
+            "azure-container-apps": {
+              "severity": "optional",
+              "effort": 2
+            }
+          },
+          "uri": "file:///home/runner/work/spring-petclinic-microservices-vet-service/spring-petclinic-microservices-vet-service/src/main/java/org/springframework/samples/petclinic/vets/VetsServiceApplication.java",
+          "lineNumber": 27,
+          "message": "@EnableDiscoveryClient annotation detected. This uses Netflix Eureka for service discovery. Consider migrating to Azure Spring Apps service registry."
+        },
+        {
+          "ruleId": "AZURE-003",
+          "labels": ["type=violation"],
+          "targets": {
+            "azure-appservice": {
+              "severity": "potential",
+              "effort": 1
+            },
+            "azure-aks": {
+              "severity": "information",
+              "effort": 1
+            },
+            "azure-container-apps": {
+              "severity": "information",
+              "effort": 1
+            }
+          },
+          "uri": "file:///home/runner/work/spring-petclinic-microservices-vet-service/spring-petclinic-microservices-vet-service/pom.xml",
+          "lineNumber": 139,
+          "message": "MySQL database detected. Ensure database connection strings and credentials are properly configured for Azure MySQL Flexible Server."
+        },
+        {
+          "ruleId": "AZURE-004",
+          "labels": ["type=violation"],
+          "targets": {
+            "azure-appservice": {
+              "severity": "potential",
+              "effort": 2
+            },
+            "azure-aks": {
+              "severity": "potential",
+              "effort": 2
+            },
+            "azure-container-apps": {
+              "severity": "potential",
+              "effort": 2
+            }
+          },
+          "uri": "file:///home/runner/work/spring-petclinic-microservices-vet-service/spring-petclinic-microservices-vet-service/pom.xml",
+          "lineNumber": 126,
+          "message": "Caffeine in-memory cache detected. Local caches don't share state across instances. Consider Azure Cache for Redis for distributed caching in multi-instance deployments."
+        },
+        {
+          "ruleId": "AZURE-005",
+          "labels": ["type=violation"],
+          "targets": {
+            "azure-appservice": {
+              "severity": "optional",
+              "effort": 1
+            },
+            "azure-aks": {
+              "severity": "optional",
+              "effort": 1
+            },
+            "azure-container-apps": {
+              "severity": "optional",
+              "effort": 1
+            }
+          },
+          "uri": "file:///home/runner/work/spring-petclinic-microservices-vet-service/spring-petclinic-microservices-vet-service/pom.xml",
+          "lineNumber": 144,
+          "message": "Prometheus metrics detected. Consider using Azure Monitor and Application Insights for comprehensive monitoring and metrics in Azure."
+        }
+      ]
+    }
+  ],
+  "rules": {
+    "AZURE-001": {
+      "title": "Migrate Spring Cloud Config to Azure App Configuration",
+      "severity": "mandatory",
+      "effort": 3,
+      "description": "Spring Cloud Config Server is detected in the application. For Azure deployments, consider migrating to Azure App Configuration which provides centralized configuration management with features like dynamic configuration refresh, feature flags, and integration with Azure services.",
+      "links": [
+        {
+          "title": "Azure App Configuration",
+          "url": "https://learn.microsoft.com/azure/azure-app-configuration/"
+        },
+        {
+          "title": "Spring Cloud Azure App Configuration",
+          "url": "https://learn.microsoft.com/azure/developer/java/spring-framework/config-server-for-azure-spring-apps"
+        }
+      ]
+    },
+    "AZURE-002": {
+      "title": "Migrate Netflix Eureka to Azure Service Discovery",
+      "severity": "mandatory",
+      "effort": 3,
+      "description": "Netflix Eureka is used for service discovery. For Azure Spring Apps deployments, use the built-in service registry. For other Azure services like App Service or AKS, consider Azure API Management or Kubernetes service discovery.",
+      "links": [
+        {
+          "title": "Azure Spring Apps Service Registry",
+          "url": "https://learn.microsoft.com/azure/spring-apps/how-to-service-registration"
+        },
+        {
+          "title": "Azure API Management",
+          "url": "https://learn.microsoft.com/azure/api-management/"
+        }
+      ]
+    },
+    "AZURE-003": {
+      "title": "Configure Azure MySQL Connection",
+      "severity": "potential",
+      "effort": 1,
+      "description": "MySQL database dependency detected. Ensure that connection strings and authentication are properly configured for Azure MySQL Flexible Server. Consider using managed identity for authentication.",
+      "links": [
+        {
+          "title": "Azure MySQL Flexible Server",
+          "url": "https://learn.microsoft.com/azure/mysql/flexible-server/"
+        },
+        {
+          "title": "Spring Cloud Azure MySQL",
+          "url": "https://learn.microsoft.com/azure/developer/java/spring-framework/configure-spring-data-jpa-with-azure-mysql"
+        }
+      ]
+    },
+    "AZURE-004": {
+      "title": "Consider Azure Cache for Redis for Distributed Caching",
+      "severity": "potential",
+      "effort": 2,
+      "description": "Caffeine in-memory cache is used. This cache is local to each application instance and doesn't share state across multiple instances. For production deployments with multiple instances, consider Azure Cache for Redis for distributed caching.",
+      "links": [
+        {
+          "title": "Azure Cache for Redis",
+          "url": "https://learn.microsoft.com/azure/azure-cache-for-redis/"
+        },
+        {
+          "title": "Spring Data Redis",
+          "url": "https://spring.io/projects/spring-data-redis"
+        }
+      ]
+    },
+    "AZURE-005": {
+      "title": "Use Azure Monitor and Application Insights",
+      "severity": "optional",
+      "effort": 1,
+      "description": "Prometheus metrics are configured. While Prometheus works in Azure, consider using Azure Monitor and Application Insights for comprehensive monitoring, metrics, distributed tracing, and alerting integrated with Azure services.",
+      "links": [
+        {
+          "title": "Azure Monitor",
+          "url": "https://learn.microsoft.com/azure/azure-monitor/"
+        },
+        {
+          "title": "Application Insights for Spring Boot",
+          "url": "https://learn.microsoft.com/azure/azure-monitor/app/java-spring-boot"
+        }
+      ]
+    }
+  }
+}
