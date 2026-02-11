@@ -9,7 +9,7 @@
 **Name: vets-service**
 - Mandatory: 0 issues
 - Potential: 2 issues
-- Optional: 1 issues
+- Optional: 1 issue
 
 > **Severity Levels Explained:**
 > - **Mandatory**: The issue has to be resolved for the migration to be successful.
@@ -28,7 +28,7 @@
 - **Potential Issues (2 locations)**:
   - <!--ruleid=config-server-001-->Spring Cloud Config Server dependency (1 location found)
   - <!--ruleid=discovery-001-->Spring Cloud Netflix Eureka service discovery (1 location found)
-- **Optional Issues (1 locations)**:
+- **Optional Issues (1 location)**:
   - <!--ruleid=database-mysql-001-->MySQL database connection (1 location found)
 
 ## Next Steps
