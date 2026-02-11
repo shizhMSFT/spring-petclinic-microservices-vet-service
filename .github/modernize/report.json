@@ -1,0 +1,177 @@
+{
+  "metadata": {
+    "generatedAt": "2026-02-11T05:29:00Z",
+    "toolVersion": "Manual Assessment v1.0",
+    "targetIds": ["azure-appservice", "azure-aks", "azure-container-apps"],
+    "targetDisplayNames": ["Azure App Service", "Azure Kubernetes Service", "Azure Container Apps"]
+  },
+  "projects": [
+    {
+      "name": "spring-petclinic-vets-service",
+      "path": "/home/runner/work/spring-petclinic-microservices-vet-service/spring-petclinic-microservices-vet-service",
+      "properties": {
+        "appName": "vets-service",
+        "jdkVersion": "17",
+        "frameworks": ["Spring Boot 3.4.1", "Spring Cloud 2024.0.0", "Spring Data JPA"],
+        "languages": ["Java"],
+        "tools": ["Maven"]
+      },
+      "incidents": [
+        {
+          "ruleId": "discovery-001",
+          "message": "Spring Cloud Netflix Eureka Client detected",
+          "codeSnip": "@EnableDiscoveryClient",
+          "uri": "file:///src/main/java/org/springframework/samples/petclinic/vets/VetsServiceApplication.java",
+          "lineNumber": 27,
+          "labels": ["type=violation"],
+          "targets": {
+            "azure-appservice": {
+              "severity": "potential",
+              "effort": 3
+            },
+            "azure-aks": {
+              "severity": "optional",
+              "effort": 1
+            },
+            "azure-container-apps": {
+              "severity": "optional",
+              "effort": 1
+            }
+          }
+        },
+        {
+          "ruleId": "config-server-001",
+          "message": "Spring Cloud Config Server dependency detected",
+          "codeSnip": "spring-cloud-starter-config",
+          "uri": "file:///pom.xml",
+          "lineNumber": 91,
+          "labels": ["type=violation"],
+          "targets": {
+            "azure-appservice": {
+              "severity": "potential",
+              "effort": 3
+            },
+            "azure-aks": {
+              "severity": "optional",
+              "effort": 2
+            },
+            "azure-container-apps": {
+              "severity": "optional",
+              "effort": 2
+            }
+          }
+        },
+        {
+          "ruleId": "database-mysql-001",
+          "message": "MySQL database dependency detected",
+          "codeSnip": "mysql-connector-j",
+          "uri": "file:///pom.xml",
+          "lineNumber": 139,
+          "labels": ["type=violation"],
+          "targets": {
+            "azure-appservice": {
+              "severity": "optional",
+              "effort": 2
+            },
+            "azure-aks": {
+              "severity": "optional",
+              "effort": 2
+            },
+            "azure-container-apps": {
+              "severity": "optional",
+              "effort": 2
+            }
+          }
+        },
+        {
+          "ruleId": "azure-integration-001",
+          "message": "Azure Spring Cloud dependencies already present",
+          "codeSnip": "spring-cloud-azure-starter-jdbc-mysql",
+          "uri": "file:///pom.xml",
+          "lineNumber": 107,
+          "labels": ["type=info"],
+          "targets": {
+            "azure-appservice": {
+              "severity": "information",
+              "effort": 0
+            },
+            "azure-aks": {
+              "severity": "information",
+              "effort": 0
+            },
+            "azure-container-apps": {
+              "severity": "information",
+              "effort": 0
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "rules": {
+    "discovery-001": {
+      "ruleId": "discovery-001",
+      "title": "Spring Cloud Netflix Eureka service discovery",
+      "description": "The application uses Spring Cloud Netflix Eureka for service discovery. When migrating to Azure, consider replacing with Azure-native service discovery mechanisms.",
+      "severity": "potential",
+      "effort": 3,
+      "links": [
+        {
+          "title": "Service Discovery in Azure Spring Apps",
+          "url": "https://learn.microsoft.com/en-us/azure/spring-apps/how-to-service-registration"
+        },
+        {
+          "title": "Migrate Spring Cloud Netflix to Azure",
+          "url": "https://learn.microsoft.com/en-us/azure/developer/java/migration/migrate-spring-cloud-to-azure-spring-apps"
+        }
+      ]
+    },
+    "config-server-001": {
+      "ruleId": "config-server-001",
+      "title": "Spring Cloud Config Server dependency",
+      "description": "The application uses Spring Cloud Config Server for centralized configuration. When migrating to Azure, consider using Azure App Configuration service.",
+      "severity": "potential",
+      "effort": 3,
+      "links": [
+        {
+          "title": "Azure App Configuration",
+          "url": "https://learn.microsoft.com/en-us/azure/azure-app-configuration/overview"
+        },
+        {
+          "title": "Spring Cloud Azure App Configuration",
+          "url": "https://learn.microsoft.com/en-us/azure/developer/java/spring-framework/spring-cloud-azure"
+        }
+      ]
+    },
+    "database-mysql-001": {
+      "ruleId": "database-mysql-001",
+      "title": "MySQL database connection",
+      "description": "The application uses MySQL database. When migrating to Azure, consider using Azure Database for MySQL with proper connection configuration and managed identity.",
+      "severity": "optional",
+      "effort": 2,
+      "links": [
+        {
+          "title": "Azure Database for MySQL",
+          "url": "https://learn.microsoft.com/en-us/azure/mysql/overview"
+        },
+        {
+          "title": "Connect Java app to Azure MySQL",
+          "url": "https://learn.microsoft.com/en-us/azure/mysql/flexible-server/connect-java"
+        }
+      ]
+    },
+    "azure-integration-001": {
+      "ruleId": "azure-integration-001",
+      "title": "Azure Spring Cloud dependencies present",
+      "description": "The application already includes Azure Spring Cloud dependencies (spring-cloud-azure-starter-jdbc-mysql), which indicates partial Azure readiness.",
+      "severity": "information",
+      "effort": 0,
+      "links": [
+        {
+          "title": "Spring Cloud Azure",
+          "url": "https://learn.microsoft.com/en-us/azure/developer/java/spring-framework/spring-cloud-azure"
+        }
+      ]
+    }
+  }
+}
