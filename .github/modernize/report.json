@@ -1,0 +1,310 @@
+{
+  "name": "spring-petclinic-microservices-vet-service",
+  "description": "Assessment report for Spring PetClinic Vets Service - a microservice for managing veterinarians",
+  "timestamp": "2026-02-11T04:54:00Z",
+  "rulesetViolations": [
+    {
+      "name": "Spring Cloud Netflix Eureka",
+      "description": "Application uses Spring Cloud Netflix Eureka for service discovery",
+      "category": "mandatory",
+      "labels": ["konveyor.io/target=azure", "konveyor.io/source=java-ee"],
+      "incidents": [
+        {
+          "uri": "file:///app/pom.xml",
+          "message": "Spring Cloud Netflix Eureka is used for service discovery. Consider migrating to Azure-native service discovery (Azure Spring Apps Service Registry or Azure Service Fabric Naming Service)",
+          "codeSnip": "spring-cloud-starter-netflix-eureka-client",
+          "lineNumber": 95,
+          "effort": 5,
+          "category": "mandatory"
+        },
+        {
+          "uri": "file:///app/src/main/java/org/springframework/samples/petclinic/vets/VetsServiceApplication.java",
+          "message": "@EnableDiscoveryClient annotation enables Eureka service discovery. For Azure, consider using Azure Spring Apps or migrating to Azure Service Discovery mechanisms",
+          "codeSnip": "@EnableDiscoveryClient",
+          "lineNumber": 27,
+          "effort": 3,
+          "category": "mandatory"
+        }
+      ],
+      "violations": 2,
+      "totalEffort": 8
+    },
+    {
+      "name": "Spring Cloud Config",
+      "description": "Application uses Spring Cloud Config for external configuration",
+      "category": "potential",
+      "labels": ["konveyor.io/target=azure"],
+      "incidents": [
+        {
+          "uri": "file:///app/pom.xml",
+          "message": "Spring Cloud Config is used for centralized configuration. Consider migrating to Azure App Configuration or Azure Key Vault for configuration management",
+          "codeSnip": "spring-cloud-starter-config",
+          "lineNumber": 91,
+          "effort": 3,
+          "category": "potential"
+        },
+        {
+          "uri": "file:///app/src/main/resources/application.yml",
+          "message": "Config server URL is configured. For Azure deployment, use Azure App Configuration or environment variables",
+          "codeSnip": "import: optional:configserver:${CONFIG_SERVER_URL:http://localhost:8888/}",
+          "lineNumber": 5,
+          "effort": 2,
+          "category": "potential"
+        }
+      ],
+      "violations": 2,
+      "totalEffort": 5
+    },
+    {
+      "name": "Database Configuration",
+      "description": "Application uses both HSQLDB and MySQL with Azure JDBC integration",
+      "category": "information",
+      "labels": ["konveyor.io/target=azure", "database"],
+      "incidents": [
+        {
+          "uri": "file:///app/pom.xml",
+          "message": "Application already uses Azure Spring Cloud JDBC starter for MySQL, which is Azure-optimized. Good for Azure deployment",
+          "codeSnip": "spring-cloud-azure-starter-jdbc-mysql",
+          "lineNumber": 107,
+          "effort": 0,
+          "category": "information"
+        },
+        {
+          "uri": "file:///app/pom.xml",
+          "message": "HSQLDB is used for development/testing. For production on Azure, ensure Azure Database for MySQL or PostgreSQL is properly configured",
+          "codeSnip": "hsqldb",
+          "lineNumber": 134,
+          "effort": 0,
+          "category": "information"
+        }
+      ],
+      "violations": 2,
+      "totalEffort": 0
+    },
+    {
+      "name": "JPA and Persistence",
+      "description": "Application uses JPA with Spring Data for data access",
+      "category": "information",
+      "labels": ["konveyor.io/target=cloud", "persistence"],
+      "incidents": [
+        {
+          "uri": "file:///app/src/main/java/org/springframework/samples/petclinic/vets/model/VetRepository.java",
+          "message": "Uses Spring Data JPA which is cloud-compatible and works well on Azure",
+          "codeSnip": "public interface VetRepository extends JpaRepository<Vet, Integer>",
+          "lineNumber": 30,
+          "effort": 0,
+          "category": "information"
+        }
+      ],
+      "violations": 1,
+      "totalEffort": 0
+    },
+    {
+      "name": "Caching Strategy",
+      "description": "Application uses Caffeine for local caching",
+      "category": "potential",
+      "labels": ["konveyor.io/target=azure", "caching"],
+      "incidents": [
+        {
+          "uri": "file:///app/pom.xml",
+          "message": "Caffeine is used for local caching. For distributed Azure environments, consider Azure Cache for Redis for shared caching across instances",
+          "codeSnip": "caffeine",
+          "lineNumber": 126,
+          "effort": 4,
+          "category": "potential"
+        },
+        {
+          "uri": "file:///app/src/main/java/org/springframework/samples/petclinic/vets/web/VetResource.java",
+          "message": "@Cacheable annotation uses local cache. For Azure multi-instance deployment, implement distributed caching",
+          "codeSnip": "@Cacheable(\"vets\")",
+          "lineNumber": 44,
+          "effort": 2,
+          "category": "potential"
+        }
+      ],
+      "violations": 2,
+      "totalEffort": 6
+    },
+    {
+      "name": "Monitoring and Observability",
+      "description": "Application has monitoring capabilities",
+      "category": "information",
+      "labels": ["konveyor.io/target=azure", "observability"],
+      "incidents": [
+        {
+          "uri": "file:///app/pom.xml",
+          "message": "Prometheus metrics are configured. For Azure, these can be integrated with Azure Monitor and Application Insights",
+          "codeSnip": "micrometer-registry-prometheus",
+          "lineNumber": 144,
+          "effort": 0,
+          "category": "information"
+        },
+        {
+          "uri": "file:///app/pom.xml",
+          "message": "Spring Boot Actuator is enabled, providing health checks and metrics endpoints compatible with Azure monitoring",
+          "codeSnip": "spring-boot-starter-actuator",
+          "lineNumber": 72,
+          "effort": 0,
+          "category": "information"
+        }
+      ],
+      "violations": 2,
+      "totalEffort": 0
+    },
+    {
+      "name": "Java Version and Framework Compatibility",
+      "description": "Application uses modern Java and Spring Boot versions",
+      "category": "information",
+      "labels": ["konveyor.io/target=azure", "version"],
+      "incidents": [
+        {
+          "uri": "file:///app/pom.xml",
+          "message": "Java 17 is used, which is fully supported on Azure App Service and Azure Spring Apps",
+          "codeSnip": "<java.version>17</java.version>",
+          "lineNumber": 20,
+          "effort": 0,
+          "category": "information"
+        },
+        {
+          "uri": "file:///app/pom.xml",
+          "message": "Spring Boot 3.4.1 is the latest version and fully compatible with Azure services",
+          "codeSnip": "<version>3.4.1</version>",
+          "lineNumber": 9,
+          "effort": 0,
+          "category": "information"
+        }
+      ],
+      "violations": 2,
+      "totalEffort": 0
+    }
+  ],
+  "dependencies": [
+    {
+      "name": "spring-boot-starter-web",
+      "version": "3.4.1",
+      "resolved": "org.springframework.boot:spring-boot-starter-web:3.4.1",
+      "labels": ["web", "spring-boot"]
+    },
+    {
+      "name": "spring-boot-starter-data-jpa",
+      "version": "3.4.1",
+      "resolved": "org.springframework.boot:spring-boot-starter-data-jpa:3.4.1",
+      "labels": ["jpa", "persistence"]
+    },
+    {
+      "name": "spring-cloud-starter-netflix-eureka-client",
+      "version": "2024.0.0",
+      "resolved": "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:2024.0.0",
+      "labels": ["service-discovery", "eureka", "migration-required"]
+    },
+    {
+      "name": "spring-cloud-starter-config",
+      "version": "2024.0.0",
+      "resolved": "org.springframework.cloud:spring-cloud-starter-config:2024.0.0",
+      "labels": ["configuration", "migration-optional"]
+    },
+    {
+      "name": "spring-cloud-azure-starter-jdbc-mysql",
+      "version": "5.20.1",
+      "resolved": "com.azure.spring:spring-cloud-azure-starter-jdbc-mysql:5.20.1",
+      "labels": ["azure", "database", "mysql"]
+    },
+    {
+      "name": "caffeine",
+      "version": "latest",
+      "resolved": "com.github.ben-manes.caffeine:caffeine",
+      "labels": ["caching", "local-cache"]
+    },
+    {
+      "name": "micrometer-registry-prometheus",
+      "version": "latest",
+      "resolved": "io.micrometer:micrometer-registry-prometheus",
+      "labels": ["monitoring", "metrics"]
+    }
+  ],
+  "summary": {
+    "totalViolations": 13,
+    "mandatoryViolations": 2,
+    "potentialViolations": 4,
+    "informationViolations": 7,
+    "totalEffort": 19,
+    "categories": {
+      "service-discovery": {
+        "incidents": 2,
+        "effort": 8
+      },
+      "configuration": {
+        "incidents": 2,
+        "effort": 5
+      },
+      "caching": {
+        "incidents": 2,
+        "effort": 6
+      },
+      "database": {
+        "incidents": 2,
+        "effort": 0
+      },
+      "observability": {
+        "incidents": 2,
+        "effort": 0
+      },
+      "framework": {
+        "incidents": 3,
+        "effort": 0
+      }
+    },
+    "recommendations": [
+      {
+        "priority": "high",
+        "category": "Service Discovery",
+        "description": "Replace Spring Cloud Netflix Eureka with Azure-native service discovery",
+        "effort": 8,
+        "details": "For Azure Spring Apps, use built-in Service Registry. For Azure App Service, use Azure Service Fabric or API Management for service discovery."
+      },
+      {
+        "priority": "medium",
+        "category": "Caching",
+        "description": "Implement distributed caching for multi-instance deployments",
+        "effort": 6,
+        "details": "Replace or supplement Caffeine local cache with Azure Cache for Redis to enable cache sharing across multiple application instances."
+      },
+      {
+        "priority": "medium",
+        "category": "Configuration",
+        "description": "Migrate to Azure App Configuration",
+        "effort": 5,
+        "details": "Replace Spring Cloud Config with Azure App Configuration for centralized, cloud-native configuration management. Use Azure Key Vault for sensitive configuration."
+      },
+      {
+        "priority": "low",
+        "category": "Database",
+        "description": "Ensure Azure Database for MySQL is properly configured",
+        "effort": 0,
+        "details": "Application already uses Azure Spring Cloud JDBC starter. Ensure connection strings and firewall rules are configured for Azure Database for MySQL in production."
+      },
+      {
+        "priority": "info",
+        "category": "Monitoring",
+        "description": "Integrate with Azure Monitor and Application Insights",
+        "effort": 0,
+        "details": "Application has Prometheus metrics and Actuator endpoints. These can be easily integrated with Azure Monitor for comprehensive observability."
+      }
+    ],
+    "cloudReadinessScore": 70,
+    "azureCompatibility": "Good",
+    "migrationComplexity": "Medium",
+    "estimatedEffort": "2-3 weeks"
+  },
+  "metadata": {
+    "applicationName": "vets-service",
+    "applicationType": "Spring Boot Microservice",
+    "framework": "Spring Boot 3.4.1",
+    "language": "Java 17",
+    "buildTool": "Maven",
+    "targetPlatform": "Azure",
+    "assessmentTool": "Manual Code Analysis",
+    "assessmentVersion": "1.0.0",
+    "repositoryUrl": "https://github.com/shizhMSFT/spring-petclinic-microservices-vet-service"
+  }
+}
