@@ -1,0 +1,16 @@
+[
+  {
+    "name": "java",
+    "binaryPath": "/usr/bin/jdtls",
+    "initConfig": [
+      {
+        "location": "/app",
+        "analysisMode": "full",
+        "providerSpecificConfig": {
+          "bundles": "/jdtls/java-analyzer-bundle/java-analyzer-bundle.core/target/java-analyzer-bundle.core-1.0.0-SNAPSHOT.jar",
+          "depOpenSourceLabelsFile": "/usr/local/etc/maven.default.index"
+        }
+      }
+    ]
+  }
+]

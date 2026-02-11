@@ -1,0 +1,321 @@
+{
+  "metadata": {
+    "tool": "Manual AppCAT Assessment",
+    "version": "1.0.0",
+    "timestamp": "2026-02-11T05:36:00Z",
+    "applicationName": "Spring PetClinic Vets Service",
+    "analysisMode": "full"
+  },
+  "application": {
+    "name": "vets-service",
+    "groupId": "org.springframework.samples.petclinic.vets",
+    "artifactId": "vets-service",
+    "version": "3.4.1",
+    "packaging": "jar",
+    "technology": {
+      "language": "Java",
+      "version": "17",
+      "framework": "Spring Boot",
+      "frameworkVersion": "3.4.1"
+    }
+  },
+  "summary": {
+    "totalIssues": 8,
+    "criticalIssues": 0,
+    "highIssues": 2,
+    "mediumIssues": 4,
+    "lowIssues": 2,
+    "informationalIssues": 0
+  },
+  "dependencies": [
+    {
+      "groupId": "org.springframework.boot",
+      "artifactId": "spring-boot-starter-web",
+      "version": "3.4.1",
+      "scope": "compile",
+      "cloudReady": true
+    },
+    {
+      "groupId": "org.springframework.boot",
+      "artifactId": "spring-boot-starter-data-jpa",
+      "version": "3.4.1",
+      "scope": "compile",
+      "cloudReady": true
+    },
+    {
+      "groupId": "org.springframework.boot",
+      "artifactId": "spring-boot-starter-actuator",
+      "version": "3.4.1",
+      "scope": "compile",
+      "cloudReady": true
+    },
+    {
+      "groupId": "org.springframework.cloud",
+      "artifactId": "spring-cloud-starter-config",
+      "version": "2024.0.0",
+      "scope": "compile",
+      "cloudReady": true
+    },
+    {
+      "groupId": "org.springframework.cloud",
+      "artifactId": "spring-cloud-starter-netflix-eureka-client",
+      "version": "2024.0.0",
+      "scope": "compile",
+      "cloudReady": true,
+      "notes": "Consider Azure Spring Apps service registry as alternative"
+    },
+    {
+      "groupId": "com.azure.spring",
+      "artifactId": "spring-cloud-azure-starter-jdbc-mysql",
+      "version": "5.20.1",
+      "scope": "compile",
+      "cloudReady": true,
+      "azureNative": true
+    },
+    {
+      "groupId": "com.mysql",
+      "artifactId": "mysql-connector-j",
+      "version": "runtime",
+      "scope": "runtime",
+      "cloudReady": true
+    },
+    {
+      "groupId": "org.hsqldb",
+      "artifactId": "hsqldb",
+      "version": "runtime",
+      "scope": "runtime",
+      "cloudReady": true,
+      "notes": "Development/test only"
+    },
+    {
+      "groupId": "com.github.ben-manes.caffeine",
+      "artifactId": "caffeine",
+      "version": "latest",
+      "scope": "compile",
+      "cloudReady": true
+    },
+    {
+      "groupId": "io.micrometer",
+      "artifactId": "micrometer-registry-prometheus",
+      "version": "latest",
+      "scope": "compile",
+      "cloudReady": true
+    },
+    {
+      "groupId": "de.codecentric",
+      "artifactId": "chaos-monkey-spring-boot",
+      "version": "3.1.0",
+      "scope": "compile",
+      "cloudReady": true,
+      "notes": "Chaos engineering for resilience testing"
+    }
+  ],
+  "issues": [
+    {
+      "id": "AZURE-001",
+      "category": "configuration",
+      "severity": "high",
+      "title": "External Configuration Server Dependency",
+      "description": "Application relies on external Spring Cloud Config Server for configuration management",
+      "affectedFiles": [
+        "src/main/resources/application.yml"
+      ],
+      "recommendation": "Migrate to Azure App Configuration or Azure Key Vault for centralized configuration management in Azure Spring Apps",
+      "effort": "medium",
+      "priority": "high"
+    },
+    {
+      "id": "AZURE-002",
+      "category": "service-discovery",
+      "severity": "high",
+      "title": "Netflix Eureka Service Discovery",
+      "description": "Application uses Netflix Eureka for service discovery, which requires additional infrastructure",
+      "affectedFiles": [
+        "src/main/java/org/springframework/samples/petclinic/vets/VetsServiceApplication.java",
+        "pom.xml"
+      ],
+      "recommendation": "Use Azure Spring Apps built-in service registry instead of external Eureka server",
+      "effort": "low",
+      "priority": "high"
+    },
+    {
+      "id": "AZURE-003",
+      "category": "database",
+      "severity": "medium",
+      "title": "Database Connection Configuration",
+      "description": "Application configured for Azure MySQL but may need connection string updates for managed services",
+      "affectedFiles": [
+        "pom.xml"
+      ],
+      "recommendation": "Verify Azure MySQL Flexible Server connection configuration and consider using managed identity for authentication",
+      "effort": "low",
+      "priority": "medium"
+    },
+    {
+      "id": "AZURE-004",
+      "category": "caching",
+      "severity": "medium",
+      "title": "Local In-Memory Caching",
+      "description": "Application uses local Caffeine cache which won't be shared across instances",
+      "affectedFiles": [
+        "src/main/java/org/springframework/samples/petclinic/vets/system/CacheConfig.java"
+      ],
+      "recommendation": "Consider Azure Cache for Redis for distributed caching in multi-instance deployments",
+      "effort": "medium",
+      "priority": "medium"
+    },
+    {
+      "id": "AZURE-005",
+      "category": "monitoring",
+      "severity": "medium",
+      "title": "Prometheus Metrics Endpoint",
+      "description": "Application exports Prometheus metrics which may not be directly used in Azure",
+      "affectedFiles": [
+        "pom.xml"
+      ],
+      "recommendation": "Azure Monitor and Application Insights can collect Spring Boot Actuator metrics. Prometheus endpoint can be kept for compatibility",
+      "effort": "low",
+      "priority": "low"
+    },
+    {
+      "id": "AZURE-006",
+      "category": "resilience",
+      "severity": "low",
+      "title": "Chaos Monkey Enabled",
+      "description": "Chaos Monkey library is included for resilience testing",
+      "affectedFiles": [
+        "pom.xml"
+      ],
+      "recommendation": "Ensure chaos engineering is properly configured and only enabled in non-production environments",
+      "effort": "low",
+      "priority": "low"
+    },
+    {
+      "id": "CLOUD-001",
+      "category": "cloud-readiness",
+      "severity": "medium",
+      "title": "Stateless Application Design",
+      "description": "Application appears to be stateless and follows 12-factor app principles",
+      "affectedFiles": [
+        "src/main/java/org/springframework/samples/petclinic/vets/web/VetResource.java"
+      ],
+      "recommendation": "This is a positive finding. Application is well-suited for cloud deployment with horizontal scaling",
+      "effort": "none",
+      "priority": "info"
+    },
+    {
+      "id": "CLOUD-002",
+      "category": "actuator",
+      "severity": "low",
+      "title": "Health and Readiness Probes",
+      "description": "Spring Boot Actuator endpoints available for health checks",
+      "affectedFiles": [
+        "pom.xml"
+      ],
+      "recommendation": "Configure Kubernetes liveness and readiness probes using /actuator/health endpoints",
+      "effort": "low",
+      "priority": "medium"
+    }
+  ],
+  "recommendations": {
+    "azure": {
+      "targetPlatform": "Azure Spring Apps",
+      "readinessScore": 85,
+      "migrationEffort": "low-to-medium",
+      "keyActions": [
+        "Replace Spring Cloud Config Server with Azure App Configuration",
+        "Use Azure Spring Apps built-in service registry instead of Eureka",
+        "Configure managed identity for Azure MySQL authentication",
+        "Consider Azure Cache for Redis for distributed caching",
+        "Enable Azure Monitor and Application Insights integration"
+      ]
+    },
+    "cloudReadiness": {
+      "score": 90,
+      "strengths": [
+        "Modern Spring Boot 3.4.1 with Java 17",
+        "Stateless design suitable for horizontal scaling",
+        "RESTful API with clear endpoint structure",
+        "Health check endpoints via Spring Boot Actuator",
+        "Externalized configuration support",
+        "Already using Azure-specific dependencies (spring-cloud-azure-starter-jdbc-mysql)"
+      ],
+      "improvements": [
+        "Migrate from Netflix OSS components to Azure-native services",
+        "Implement distributed caching for multi-instance scenarios",
+        "Add comprehensive logging strategy for cloud environments",
+        "Consider implementing circuit breakers with Resilience4j"
+      ]
+    }
+  },
+  "architecture": {
+    "type": "Microservice",
+    "pattern": "Spring Cloud Microservices",
+    "components": [
+      {
+        "name": "vets-service",
+        "type": "REST API",
+        "responsibility": "Veterinarian information management",
+        "endpoints": [
+          "GET /vets - List all veterinarians"
+        ]
+      }
+    ],
+    "externalDependencies": [
+      {
+        "name": "Config Server",
+        "type": "Configuration Management",
+        "required": true,
+        "azureAlternative": "Azure App Configuration"
+      },
+      {
+        "name": "Eureka Server",
+        "type": "Service Discovery",
+        "required": true,
+        "azureAlternative": "Azure Spring Apps Service Registry"
+      },
+      {
+        "name": "MySQL Database",
+        "type": "Data Persistence",
+        "required": true,
+        "azureAlternative": "Azure MySQL Flexible Server"
+      }
+    ]
+  },
+  "modernization": {
+    "priority": "medium",
+    "estimatedEffort": "2-3 weeks",
+    "phases": [
+      {
+        "phase": 1,
+        "name": "Configuration Migration",
+        "tasks": [
+          "Set up Azure App Configuration service",
+          "Migrate configuration from Config Server to Azure App Configuration",
+          "Update application to use Azure App Configuration client"
+        ],
+        "effort": "1 week"
+      },
+      {
+        "phase": 2,
+        "name": "Service Discovery Migration",
+        "tasks": [
+          "Remove Eureka client dependency",
+          "Configure Azure Spring Apps service registry",
+          "Test service-to-service communication"
+        ],
+        "effort": "3-5 days"
+      },
+      {
+        "phase": 3,
+        "name": "Database and Caching Optimization",
+        "tasks": [
+          "Configure Azure MySQL connection with managed identity",
+          "Evaluate and implement Azure Cache for Redis if needed",
+          "Test database connectivity and caching behavior"
+        ],
+        "effort": "3-5 days"
+      }
+    ]
+  }
+}
