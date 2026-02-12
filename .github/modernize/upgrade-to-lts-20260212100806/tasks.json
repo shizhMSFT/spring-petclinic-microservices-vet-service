@@ -23,7 +23,16 @@
         "passIntegrationTests": "false",
         "securityComplianceCheck": "false"
       },
-      "status": "started"
+      "status": "success",
+      "taskSummary": "Successfully upgraded Java from 17 to 21 (LTS). Spring Boot 3.4.1 and Spring Framework 6.x already in place. Build passes and all unit tests pass. See .github/modernize/001-upgrade-java-spring-boot/modernization-summary.md for details.",
+      "successCriteriaStatus": {
+        "passBuild": "true",
+        "generateNewUnitTests": "null",
+        "generateNewIntegrationTests": "null",
+        "passUnitTests": "true",
+        "passIntegrationTests": "null",
+        "securityComplianceCheck": "null"
+      }
     }
   ],
   "metadata": {
